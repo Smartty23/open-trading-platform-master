@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: client-config-service
+  name: client-config-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: client-config-service
+  template:
+    metadata:
+      labels:
+        app: client-config-service
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: opentp
+        image: {{ .Values.dockerRepo }}/otp-client-config-service:{{ .Values.dockerTag }}
+        imagePullPolicy: Always
+        name: client-config-service
+

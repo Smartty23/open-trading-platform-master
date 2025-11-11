@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: market-data-service
+  name: market-data-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: market-data-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      creationTimestamp: null
+      labels:
+        app: market-data-service
+    spec:
+      containers:
+      - env:
+        - name: MDS_ID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        image: {{ .Values.dockerRepo }}/otp-market-data-service:{{ .Values.dockerTag }}
+        imagePullPolicy: Always
+        name: market-data-service
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: otpservice
+      serviceAccountName: otpservice
+      terminationGracePeriodSeconds: 30
+

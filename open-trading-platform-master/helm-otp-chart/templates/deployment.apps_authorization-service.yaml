@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: authorization-service
+  name: authorization-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authorization-service
+  template:
+    metadata:
+      labels:
+        app: authorization-service
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: opentp
+        image: {{ .Values.dockerRepo }}/otp-authorization-service:{{ .Values.dockerTag }}
+        imagePullPolicy: Always
+        name: authorization-service
+  

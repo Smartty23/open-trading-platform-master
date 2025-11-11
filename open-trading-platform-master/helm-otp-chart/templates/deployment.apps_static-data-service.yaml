@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: static-data-service
+  name: static-data-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: static-data-service
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: static-data-service
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: opentp
+        image: {{ .Values.dockerRepo }}/otp-static-data-service:{{ .Values.dockerTag }}
+        imagePullPolicy: Always
+        name: static-data-service
+

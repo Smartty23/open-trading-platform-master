@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: statefulset-restart
+  namespace: default
+spec:
+  concurrencyPolicy: Forbid
+  schedule: '30 22 * * *' 
+  jobTemplate:
+    spec:
+      backoffLimit: 2 
+      activeDeadlineSeconds: 600 
+      template:
+        spec:
+          serviceAccountName: deployment-restart 
+          restartPolicy: Never
+          containers:
+            - name: kubectl
+              image: bitnami/kubectl 
+              command:
+                - 'kubectl'
+                - 'rollout'
+                - 'restart'
+                - 'statefulset'
+                - '-n'
+                - 'default'

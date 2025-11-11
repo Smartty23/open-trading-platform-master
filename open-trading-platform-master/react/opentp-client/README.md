@@ -1,0 +1,3 @@
+# opentp-client
+
+The opentp client is an SPA client written in Typescript using the React library.  The client provides implementations of the components most commonly found in execution trading clients, these being:  Order Blotter, Order Ticket, Instrument Watch and Market Depth.  In addition it provides components to view Order History and Executions.  These components, along with the applications container, are intended as a guide and base architecture on which customised clients can be built. 

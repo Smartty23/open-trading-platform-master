@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: market-data-service
+  name: market-data-service
+spec:
+  ports:
+  - name: api 
+    port: 50551
+    protocol: TCP
+    targetPort: 50551
+  selector:
+    app: market-data-service
+  sessionAffinity: ClientIP
+  type: ClusterIP
+

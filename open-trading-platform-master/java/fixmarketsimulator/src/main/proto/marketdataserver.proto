@@ -1,0 +1,11 @@
+syntax = "proto3";
+package marketdataservice;
+import "marketdata.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "com.ettech.fixmarketsimulator.marketdataserver.api";
+
+
+service FixSimMarketDataService {
+    rpc Connect(stream MarketData.MarketDataRequest) returns (stream MarketData.MarketDataIncrementalRefresh) {};
+}

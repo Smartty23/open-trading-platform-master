@@ -1,0 +1,52 @@
+syntax = "proto3";
+import "order.proto";
+import "modelcommon.proto";
+package executionvenue;
+
+
+message CreateAndRouteOrderParams{
+    model.Side orderSide = 1;
+    model.Decimal64 quantity = 2;
+    model.Decimal64 price = 3;
+    int32 listingId = 4;
+    string destination = 5;
+    string originatorId = 6;
+    string originatorRef =7;
+    string rootOriginatorId = 8;
+    string rootOriginatorRef =9;
+    string execParametersJson =10;    
+
+}
+
+message OrderId {
+    string orderId = 1;
+}
+
+message ExecParamsMetaDataJson {
+    string json = 1;
+}
+
+message CancelOrderParams {
+    string orderId = 1;
+    int32 listingId = 2;
+    string ownerId = 3;
+}
+
+message ModifyOrderParams {
+    string orderId = 1;
+    int32 listingId = 2;
+    string ownerId = 3;
+    model.Decimal64 quantity = 4;
+    model.Decimal64 price = 5;
+
+}
+
+
+service ExecutionVenue{
+    rpc CreateAndRouteOrder(CreateAndRouteOrderParams) returns (OrderId) {};
+    rpc CancelOrder(CancelOrderParams) returns (model.Empty) {};
+    rpc ModifyOrder(ModifyOrderParams) returns (model.Empty) {};
+    rpc GetExecutionParametersMetaData(model.Empty) returns (ExecParamsMetaDataJson) {};
+} 
+
+
